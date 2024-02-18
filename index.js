@@ -19,19 +19,21 @@ app.use(express.json());
 
 
 app.use(cors({
-    credentials:true,
+    credentials: true,
     // origin:[""]
-    origin:["http://localhost:3000"]
-    
+    origin: ["https://recroot-blog-app-frontend.vercel.app",
+        "https://www.recroot-blog-app-frontend.vercel.app",
+        "http://localhost:3000"]
 
-    
-   
-    
+
+
+
+
 }));
 app.use(fileUpload({
-    useTempFiles:true,
+    useTempFiles: true,
     tempFileDir: '/tmp'
-    
+
 }))
 
 
@@ -40,15 +42,15 @@ app.use(fileUpload({
 const URI = process.env.MONGO_URL;
 
 mongoose.connect(URI, {
-   useCreateIndex:true,
-   useFindAndModify:false,
-   useNewUrlParser:true,
-   useUnifiedTopology:true  
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 
-},(err)=>{
+}, (err) => {
 
     if (err) throw err;
-    else{
+    else {
         return console.log(`mongo db connected yes!!!`);
     }
 
@@ -58,7 +60,7 @@ mongoose.connect(URI, {
 
 
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("App is running")
 })
 
@@ -71,19 +73,19 @@ app.use('/api/blog', require('./routes/blogRoutes'));
 
 
 
-PORT =process.env.PORT || 5000;
+PORT = process.env.PORT || 5000;
 
 
 // static assets
-if(process.env.NODE_ENV==='production'){
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
-    app.get('*', (req, res)=>res.sendFile(path.resolve(process.cwd(),'tmp')))
+    app.get('*', (req, res) => res.sendFile(path.resolve(process.cwd(), 'tmp')))
 }
 
 
 
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`server listening on port:${PORT}`);
 })
 
